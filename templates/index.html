@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Containers</title>
+</head>
+<body>
+    <h2>Select a Container</h2>
+    <ul>
+        {% for container in containers %}
+            <li><a href="{{ url_for('fetch_logs', container_name=container) }}">{{ container }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
