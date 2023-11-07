@@ -1,0 +1,6 @@
+data/README.md.i
+data/templates/index.html.i
+data/.hgignore.i
+data/Logreader.py.i
+data/LICENSE.i
+data/Dockerfile.i

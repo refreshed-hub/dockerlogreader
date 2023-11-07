@@ -1,0 +1,3 @@
+1
+push-response
+http://ubuntumetal:8000/dockerlogreader/
