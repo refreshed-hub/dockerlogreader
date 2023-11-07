@@ -9,7 +9,7 @@ WORKDIR /app
 
 # Install Python libraries
 RUN pip install --upgrade pip
-RUN pip install Flask docker
+RUN pip install Flask docker gunicorn
 
 # Copy the folder from the host to the container's working directory
 COPY . /app
@@ -18,5 +18,4 @@ COPY . /app
 EXPOSE 8000
 
 # Run the Flask app when the container starts
-CMD ["python", "Logreader.py"]
-
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8000", "Logreader:app"]
