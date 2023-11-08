@@ -9,7 +9,7 @@ WORKDIR /app
 
 # Install Python libraries
 RUN pip install --upgrade pip
-RUN pip install Flask docker gunicorn
+RUN pip install Flask docker ZipFile gunicorn
 
 # Copy the folder from the host to the container's working directory
 COPY . /app
