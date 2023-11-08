@@ -4,12 +4,9 @@ FROM python:3.10
 # Set the working directory inside the container
 WORKDIR /app
 
-# Install system dependencies
-# RUN apt-get update && apt-get install -y python3-pip
-
 # Install Python libraries
-RUN pip install --upgrade pip
-RUN pip install Flask docker gunicorn
+RUN pip install --no-cache-dir --upgrade pip
+RUN pip install --no-cache-dir Flask docker gunicorn
 
 # Copy the folder from the host to the container's working directory
 COPY . /app
