@@ -9,10 +9,12 @@
         {% for container in containers %}
             <li>
                 <a href="{{ url_for('fetch_logs', container_name=container) }}">{{ container }}</a>
-                <!-- Add a link for downloading the logs -->
-                <a href="{{ url_for('download_logs', container_name=container) }}" download>(txt)</a>
+                | <a href="{{ url_for('download_logs', container_name=container) }}" download>(txt)</a>
+                | <a href="{{ url_for('download_logs_zip', container_name=container) }}" download>(zip)</a>
             </li>
         {% endfor %}
     </ul>
+    <!-- Add a link for downloading all logs in a ZIP -->
+    <a href="{{ url_for('download_all_logs_zip') }}" download>Download all logs as a zip</a>
 </body>
 </html>

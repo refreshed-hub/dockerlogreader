@@ -1,4 +1,6 @@
 from flask import Flask, jsonify, render_template, Response
+from zipfile import ZipFile
+import io
 import docker
 
 app = Flask(__name__)
@@ -40,6 +42,41 @@ def download_logs(container_name):
         logs,
         mimetype='text/plain',
         headers={"Content-Disposition": f"attachment;filename={container_name}_logs.txt"}
+    )
+
+
+@app.route('/download_logs_zip/<container_name>')
+def download_logs_zip(container_name):
+    logs = get_logs(container_name)
+    memory_file = io.BytesIO()
+
+    with ZipFile(memory_file, 'w') as zf:
+        zf.writestr(f"{container_name}_logs.txt", logs)
+
+    memory_file.seek(0)
+
+    return Response(
+        memory_file,
+        mimetype='application/zip',
+        headers={"Content-Disposition": f"attachment;filename={container_name}_logs.zip"}
+    )
+
+
+@app.route('/download_all_logs_zip')
+def download_all_logs_zip():
+    memory_file = io.BytesIO()
+
+    with ZipFile(memory_file, 'w') as zf:
+        for container_name in list_containers():
+            logs = get_logs(container_name)
+            zf.writestr(f"{container_name}_logs.txt", logs)
+
+    memory_file.seek(0)
+
+    return Response(
+        memory_file,
+        mimetype='application/zip',
+        headers={"Content-Disposition": "attachment;filename=all_container_logs.zip"}
     )
 
 
