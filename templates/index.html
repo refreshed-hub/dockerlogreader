@@ -4,10 +4,14 @@
     <title>Containers</title>
 </head>
 <body>
-    <h2>Select a Container</h2>
+    <h2>Select a running Docker container to read logs from</h2>
     <ul>
         {% for container in containers %}
-            <li><a href="{{ url_for('fetch_logs', container_name=container) }}">{{ container }}</a></li>
+            <li>
+                <a href="{{ url_for('fetch_logs', container_name=container) }}">{{ container }}</a>
+                <!-- Add a link for downloading the logs -->
+                <a href="{{ url_for('download_logs', container_name=container) }}" download>(txt)</a>
+            </li>
         {% endfor %}
     </ul>
 </body>

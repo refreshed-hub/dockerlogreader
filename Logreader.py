@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, Response
 import docker
 
 app = Flask(__name__)
@@ -17,12 +17,30 @@ def fetch_containers():
 
 @app.route('/logs/<container_name>', methods=['GET'])
 def fetch_logs(container_name):
+    logs = get_logs(container_name)
+    return f"<pre>{logs}</pre>"
+
+
+def get_logs(container_name):
     try:
         container = client.containers.get(container_name)
         logs = container.logs().decode('utf-8')
-        return f"<pre>{logs}</pre>"
+        return f"{logs}"
     except docker.errors.NotFound:
-        return 'Container not found', 404
+        return 'Container not found'
+
+
+@app.route('/download_logs/<container_name>')
+def download_logs(container_name):
+    # Assuming 'get_logs' is a function that fetches logs from a given container.
+    logs = get_logs(container_name)
+
+    # Generate a Response object with logs as the content and appropriate headers.
+    return Response(
+        logs,
+        mimetype='text/plain',
+        headers={"Content-Disposition": f"attachment;filename={container_name}_logs.txt"}
+    )
 
 
 @app.route('/')
