@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  dockerlogreader:
+    container_name: dockerlogreader-container
+    image: dockerlogreader-image
+    ports:
+      - "4123:8000"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    restart: unless-stopped
