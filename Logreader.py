@@ -8,7 +8,7 @@ client = docker.from_env()
 
 
 def list_containers():
-    containers = client.containers.list()
+    containers = client.containers.list(all=True)
     return [container.name for container in containers]
 
 
